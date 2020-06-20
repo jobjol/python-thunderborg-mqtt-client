@@ -3,9 +3,6 @@
 
 import paho.mqtt.client as mqttClient
 import time
-import context
-import os
-import subprocess
 import config
 import ThunderBorg
 import sys
