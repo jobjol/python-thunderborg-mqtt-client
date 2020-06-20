@@ -42,6 +42,8 @@ def on_connect(client, userdata, flags, rc):
 
 
 def on_message(client, userdata, message):
+    print (message.topic)
+    print (message.payload)
     if message.topic == 'home/living/curtain/left':
         if is_number(message.payload):
             moveStep(steps, 0)
