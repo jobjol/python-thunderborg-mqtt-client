@@ -46,11 +46,11 @@ def on_message(client, userdata, message):
     print (message.payload)
     if message.topic == 'home/living/curtain/left':
         if is_number(message.payload):
-            moveStep(steps, 0)
+            moveStep(message.payload, 0)
 
     if message.topic == 'home/living/curtain/right':
         if is_number(message.payload):
-            moveStep(steps, 1)
+            moveStep(message.payload, 1)
 
 # Function to perform a sequence of steps as fast as allowed
 def moveStep(count, motornumber):
