@@ -105,9 +105,9 @@ def MoveStep(count, motor):
         # Set a starting position if this is the first move
         if step[motor] == -1:
             drive = config.sequence[-1]
-            if motor == 0:
+
                 TB.SetMotor1(drive[0])
-            if motor == 1:
+
                 TB.SetMotor2(drive[1])
             step[motor] = 0
         else:
@@ -122,9 +122,9 @@ def MoveStep(count, motor):
         # For this step set the required drive values
         if step[motor] < len(config.sequence):
             drive = config.sequence[step[motor]]
-            if motor == 0:
+
                 TB.SetMotor1(drive[0])
-            if motor == 1:
+
                 TB.SetMotor2(drive[1])
         time.sleep(config.stepDelay)
         count -= 1
