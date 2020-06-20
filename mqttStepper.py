@@ -123,7 +123,7 @@ while Connected != True:
     time.sleep(0.1)
 
 client.subscribe('home/living/curtain/left')
-client.subscribe('Mhome/living/curtain/right')
+client.subscribe('home/living/curtain/right')
 
 try:
     while True:
