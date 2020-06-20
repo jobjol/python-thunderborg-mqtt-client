@@ -32,7 +32,6 @@ step = -1
 
 def on_connect(client, userdata, flags, rc):
     if rc == 0:
-        global Connected
         Connected = True
         print("connected to broker")
         client.subscribe("home")
@@ -99,8 +98,11 @@ def HoldPosition(motornumber):
     # For the current step set the required holding drive values
     if step < len(config.sequence):
         drive = config.sequenceHold[step]
-        TB.SetMotor1(drive[0])
+        if motornumber == 0:
+            TB.SetMotor1(drive[0])
+        if motornumber == 1:
         TB.SetMotor2(drive[1])
+
 
 def loop():
     try:
@@ -108,7 +110,6 @@ def loop():
     except (KeyboardInterrupt, SystemExit):
         print("Received keyboard interrupt, quitting ...")
 
-# connect the client to Cumulocity IoT and register a device
 client = mqtt.Client(config.client_name)
 client.username_pw_set(credentials.username, credentials.password)
 client.on_message = on_message
