@@ -29,8 +29,7 @@ if not TB.foundChip:
         print 'If you need to change the I²C address change the setup line so it is correct, e.g.'
         print 'TB.i2cAddress = 0x%02X' % (boards[0])
     sys.exit()
-step = -1
-
+step = [-1,-1]
 
 def on_connect(client, userdata, flags, rc):
     if rc == 0:
@@ -66,25 +65,25 @@ def moveStep(count, motornumber):
     # Loop through the steps
     while count > 0:
         # Set a starting position if this is the first move
-        if step == -1:
+        if step[motornumber] == -1:
             drive = config.sequence[-1]
             if motornumber == 0:
-                TB.SetMotor1(drive[motornumber])
+                TB.SetMotor1(drive[0])
             if motornumber == 1:
-                TB.SetMotor2(drive[motornumber])
-            step = 0
+                TB.SetMotor2(drive[1])
+            step[motornumber] = 0
         else:
-            step += dir
+            step[motornumber] += dir
 
         # Wrap step when we reach the end of the sequence
-        if step < 0:
-            step = len(config.sequence) - 1
-        elif step >= len(config.sequence):
-            step = 0
+        if step[motornumber] < 0:
+            step[motornumber] = len(config.sequence) - 1
+        elif step[motornumber] >= len(config.sequence):
+            step[motornumber] = 0
 
         # For this step set the required drive values
-        if step < len(config.sequence):
-            drive = config.sequence[step]
+        if step[motornumber] < len(config.sequence):
+            drive = config.sequence[step[motornumber]]
             if motornumber == 0:
                 TB.SetMotor1(drive[motornumber])
             if motornumber == 1:
