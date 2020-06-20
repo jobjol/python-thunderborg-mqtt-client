@@ -8,16 +8,7 @@ import subprocess
 import config
 import ThunderBorg
 import sys
-# Create a credentials.py file with the following structure:
-#
-# login = dict(
-#     username = 'xxx',
-#     password = 'xxx',
-# )
-try:
-    import credentials
-except ImportError:
-    credentials = None
+import credentials
 
 # Name the global variables
 global step
