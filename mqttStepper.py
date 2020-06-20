@@ -54,7 +54,7 @@ def moveStep(count, motornumber):
     global step
     global TB
     print ('count = ' + count)
-    print ('motor = ' + count)
+    print ('motor = ' + motornumber)
     # Choose direction based on sign (+/-)
     if count < 0:
         dir = -1
