@@ -33,16 +33,16 @@ step = -1
 def on_connect(client, userdata, flags, rc):
     if rc == 0:
         global Connected
-        Connected =True
+        Connected = True
         print("connected to broker")
-        client.subscribe("home/living/curtain/")
+        client.subscribe("home")
     else:
         print("Connection failed")
 
 
 def on_message(client, userdata, message):
     print ('message incoming')
-    print (message.payload)
+    print(msg.topic+" -  "+str(msg.payload))
     if message.topic == 'home/living/curtain/left':
         moveStep(message.payload, 0)
 
