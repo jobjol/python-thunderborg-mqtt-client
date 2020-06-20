@@ -19,6 +19,14 @@ import paho.mqtt.client as mqtt
 import os
 import ssl
 import argparse
+import ThunderBorg
+import time
+import sys
+import config
+
+# Name the global variables
+global step
+global TB
 
 parser = argparse.ArgumentParser()
 
@@ -39,6 +47,22 @@ parser.add_argument('-D', '--debug', action='store_true')
 
 args, unknown = parser.parse_known_args()
 
+# Setup the ThunderBorg
+TB = ThunderBorg.ThunderBorg()     # Create a new ThunderBorg object
+#TB.i2cAddress = 0x15              # Uncomment and change the value if you have changed the board address
+TB.Init()                          # Set the board up (checks the board is connected)
+if not TB.foundChip:
+    boards = ThunderBorg.ScanForThunderBorg()
+    if len(boards) == 0:
+        print 'No ThunderBorg found, check you are attached :)'
+    else:
+        print 'No ThunderBorg at address %02X, but we did find boards:' % (TB.i2cAddress)
+        for board in boards:
+            print '    %02X (%d)' % (board, board)
+        print 'If you need to change the I²C address change the setup line so it is correct, e.g.'
+        print 'TB.i2cAddress = 0x%02X' % (boards[0])
+    sys.exit()
+step = [-1, -1]
 
 def on_connect(mqttc, obj, flags, rc):
     print("rc: " + str(rc))
@@ -46,6 +70,10 @@ def on_connect(mqttc, obj, flags, rc):
 
 def on_message(mqttc, obj, msg):
     print(msg.topic + " " + str(msg.qos) + " " + str(msg.payload))
+    if msg.topic == "home/living/curtain/left":
+        MoveStep(msg.payload,0)
+    if msg.topic == "home/living/curtain/right":
+        MoveStep(msg.payload,1)
 
 
 def on_publish(mqttc, obj, mid):
@@ -58,6 +86,63 @@ def on_subscribe(mqttc, obj, mid, granted_qos):
 
 def on_log(mqttc, obj, level, string):
     print(string)
+
+
+# Function to perform a sequence of steps as fast as allowed
+def MoveStep(count, motor):
+    global step
+    global TB
+
+    # Choose direction based on sign (+/-)
+    if count < 0:
+        dir = -1
+        count *= -1
+    else:
+        dir = 1
+
+    # Loop through the steps
+    while count > 0:
+        # Set a starting position if this is the first move
+        if step[motor] == -1:
+            drive = config.sequence[-1]
+            if motor == 0:
+                TB.SetMotor1(drive[0])
+            if motor == 1:
+                TB.SetMotor2(drive[1])
+            step[motor] = 0
+        else:
+            step[motor] += dir
+
+        # Wrap step when we reach the end of the sequence
+        if step[motor] < 0:
+            step[motor] = len(config.sequence) - 1
+        elif step[motor] >= len(config.sequence):
+            step[motor] = 0
+
+        # For this step set the required drive values
+        if step[motor] < len(config.sequence):
+            drive = config.sequence[step[motor]]
+            if motor == 0:
+                TB.SetMotor1(drive[0])
+            if motor == 1:
+                TB.SetMotor2(drive[1])
+        time.sleep(config.stepDelay)
+        count -= 1
+
+
+# Function to switch to holding power
+def HoldPosition(motor):
+    global step
+    global TB
+
+    # For the current step set the required holding drive values
+    if step[motor] < len(config.sequence):
+        drive = config.sequenceHold[step[motor]]
+        if motor == 0:
+            TB.SetMotor1(drive[0])
+        if motor == 1:
+        TB.SetMotor2(drive[1])
+
 
 usetls = args.use_tls
 
