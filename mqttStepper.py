@@ -30,7 +30,7 @@ if not TB.foundChip:
 step = [-1,-1]
 
 def on_connect(client, userdata, flags, rc):
-    global Connected
+    global connected
     if rc == 0:
         print("Connected to broker")
         connected =True
