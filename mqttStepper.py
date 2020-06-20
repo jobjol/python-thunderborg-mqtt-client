@@ -141,7 +141,7 @@ def HoldPosition(motor):
         if motor == 0:
             TB.SetMotor1(drive[0])
         if motor == 1:
-        TB.SetMotor2(drive[1])
+            TB.SetMotor2(drive[1])
 
 
 usetls = args.use_tls
