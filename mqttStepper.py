@@ -39,6 +39,10 @@ def on_connect(client, userdata, flags, rc):
 
 
 def on_message(client, userdata, message):
+    print("message received " ,str(message.payload.decode("utf-8")))
+    print("message topic=",message.topic)
+    print("message qos=",message.qos)
+    print("message retain flag=",message.retain)
     print ('message incoming')
     print (message.payload)
     if message.topic == 'home/living/curtain/left':
@@ -110,22 +114,22 @@ client = mqttClient.Client(config.client_name)
 client.username_pw_set(user, password=password)
 client.on_connect = on_connect
 client.on_message = on_message
-client.on_log = on_log
+# client.on_log = on_log
 client.connect(broker_address, port)
 client.subscribe('home/living/curtain/left')
 client.subscribe('home/living/curtain/right')
 
-client.loop_forever()
+client.loop_start()
 
 
 while connected != True:
-    time.sleep(0.1)
+    time.sleep(1)
 
 
 
 try:
     while True:
-        time.sleep(0.1)
+        time.sleep(1)
 
 except KeyboardInterrupt:
     print "exiting"
