@@ -111,9 +111,6 @@ client.username_pw_set(user, password=password)
 client.on_connect = on_connect
 client.on_message = on_message
 
-client.subscribe('home/living/curtain/left')
-client.subscribe('home/living/curtain/right')
-
 client.connect(broker_address, port=port)
 client.loop_forever()
 
