@@ -11,11 +11,6 @@ import credentials
 
 global Connected
 
-try:
-    import credentials
-except ImportError:
-    credentials = None
-
 def on_connect(client, userdata, flags, rc):
     if rc == 0:
         print("Connected to broker")
