@@ -45,9 +45,6 @@ client.loop_start()
 while Connected != True:
     time.sleep(0.1)
 
-client.subscribe('Misc/PrayerTrigger')
-client.subscribe('Misc/PrayerTriggerFajr')
-
 try:
     while True:
         time.sleep(1)
