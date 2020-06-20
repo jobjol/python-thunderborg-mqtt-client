@@ -1,5 +1,5 @@
 client_name = 'raspberry_1'
-broker = 'home.jobjol.com'
+broker = '192.168.178.106'
 port = 1883
 
 # Tell the system how to drive the stepper
