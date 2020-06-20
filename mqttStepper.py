@@ -118,4 +118,4 @@ print("Device registered successfully!")
 
 client.subscribe("home/living/curtain/left")
 
-loop()
+client.loop_forever()
