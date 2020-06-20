@@ -116,4 +116,6 @@ client.username_pw_set(credentials.username, credentials.password)
 client.on_message = on_message
 client.on_connect = on_connect
 client.connect(config.broker)
-client.loop_forever()
+client.loop_start()
+while True:
+    client.subscribe("home/living/curtain/left")
