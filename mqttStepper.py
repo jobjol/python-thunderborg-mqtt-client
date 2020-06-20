@@ -32,7 +32,6 @@ step = -1
 
 def on_connect(client, userdata, flags, rc):
     if rc == 0:
-        print("Connected to broker")
         global Connected
         Connected =True
     else:
@@ -112,7 +111,7 @@ client = mqttClient.Client(config.client_name)
 client.username_pw_set(user, password=password)
 client.on_connect = on_connect
 client.on_message = on_message
-
+print("connecting to broker")
 client.connect(broker_address, port=port)
 client.loop_start()
 
