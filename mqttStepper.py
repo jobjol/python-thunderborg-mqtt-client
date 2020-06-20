@@ -45,12 +45,10 @@ def on_message(client, userdata, message):
     print ('message incoming')
     print (message.payload)
     if message.topic == 'home/living/curtain/left':
-        if is_number(message.payload):
-            moveStep(message.payload, 0)
+        moveStep(message.payload, 0)
 
     if message.topic == 'home/living/curtain/right':
-        if is_number(message.payload):
-            moveStep(message.payload, 1)
+        moveStep(message.payload, 1)
 
 # Function to perform a sequence of steps as fast as allowed
 def moveStep(count, motornumber):
@@ -127,7 +125,7 @@ client.subscribe('home/living/curtain/right')
 
 try:
     while True:
-        time.sleep(1)
+        time.sleep(0.1)
 
 except KeyboardInterrupt:
     print "exiting"
