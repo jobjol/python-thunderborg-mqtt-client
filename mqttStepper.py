@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: latin-1
 
-import paho.mqtt.client as mqttClient
+import paho.mqtt.client as mqtt
 import time
 import config
 import ThunderBorg
@@ -102,31 +102,13 @@ def HoldPosition(motornumber):
         TB.SetMotor2(drive[1])
 
 
-Connected = False
-
-broker_address = config.broker #Your MQTT broker IP address
-port = config.port #default port change as required
-user = credentials.username #mqtt user name change as required
-password = credentials.password #mqtt password change as required
-client = mqttClient.Client(config.client_name)
-client.username_pw_set(user, password=password)
-client.on_connect = on_connect
+# connect the client to Cumulocity IoT and register a device
+client = mqtt.Client(config.client_name)
+client.username_pw_set(credentials.username, credentials.password)
 client.on_message = on_message
-print("connecting to broker")
-client.connect(broker_address, port=port)
+
+client.connect(config.broker)
 client.loop_start()
+print("Device registered successfully!")
 
-while Connected != True:
-    time.sleep(0.1)
-
-client.subscribe('home/living/curtain/left')
-client.subscribe('home/living/curtain/right')
-
-try:
-    while True:
-        time.sleep(0.1)
-
-except KeyboardInterrupt:
-    print "exiting"
-    client.disconnect()
-    client.loop_stop()
+client.subscribe("home/living/curtain/left")
