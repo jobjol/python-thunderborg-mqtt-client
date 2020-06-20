@@ -7,6 +7,9 @@ import config
 #
 #     username = 'xxx',
 #     password = 'xxx',
+import credentials
+
+global Connected
 
 try:
     import credentials
