@@ -34,7 +34,8 @@ def on_connect(client, userdata, flags, rc):
     if rc == 0:
         Connected = True
         print("connected to broker")
-        client.subscribe("home")
+        print("Connected with result code "+str(rc))
+        client.subscribe("home/living/curtain/left")
     else:
         print("Connection failed")
 
