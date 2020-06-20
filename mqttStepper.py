@@ -54,7 +54,8 @@ def on_message(client, userdata, message):
 def moveStep(count, motornumber):
     global step
     global TB
-
+    print ('count = ' + count)
+    print ('motor = ' + count)
     # Choose direction based on sign (+/-)
     if count < 0:
         dir = -1
