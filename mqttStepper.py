@@ -121,12 +121,6 @@ client.subscribe('home/living/curtain/right')
 
 client.loop_start()
 
-
-while connected != True:
-    time.sleep(1)
-
-
-
 try:
     while True:
         time.sleep(1)
