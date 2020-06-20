@@ -1,3 +1,3 @@
 client_name = 'raspberry_1'
-broker = 'hostname or ipaddress'
+broker = 'home.jobjol.com'
 port = 1883
