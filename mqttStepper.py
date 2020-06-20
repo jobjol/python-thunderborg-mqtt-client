@@ -35,6 +35,7 @@ def on_connect(client, userdata, flags, rc):
         global Connected
         Connected =True
         print("connected to broker")
+        client.subscribe("home/living/curtain/")
     else:
         print("Connection failed")
 
@@ -111,11 +112,6 @@ def loop():
 client = mqtt.Client(config.client_name)
 client.username_pw_set(credentials.username, credentials.password)
 client.on_message = on_message
-
+client.on_connect = on_connect
 client.connect(config.broker)
-client.loop_start()
-print("Device registered successfully!")
-
-client.subscribe("home/living/curtain/left")
-
 client.loop_forever()
