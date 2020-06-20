@@ -107,7 +107,7 @@ port = config.port #default port change as required
 user = credentials.username #mqtt user name change as required
 password = credentials.password #mqtt password change as required
 client = mqttClient.Client(config.client_name)
-//client.username_pw_set(user, password=password)
+#client.username_pw_set(user, password=password)
 client.on_connect = on_connect
 client.on_message = on_message
 
