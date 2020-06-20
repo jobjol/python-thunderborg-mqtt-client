@@ -116,8 +116,8 @@ Connected = False
 
 broker_address = config.broker #Your MQTT broker IP address
 port = config.port #default port change as required
-user = credentials.login['username'] #mqtt user name change as required
-password = credentials.login['password'] #mqtt password change as required
+user = credentials.username #mqtt user name change as required
+password = credentials.password #mqtt password change as required
 client = mqttClient.Client(config.client_name)
 client.username_pw_set(user, password=password)
 client.on_connect = on_connect
