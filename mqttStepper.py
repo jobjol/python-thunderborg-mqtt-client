@@ -101,6 +101,11 @@ def HoldPosition(motornumber):
         TB.SetMotor1(drive[0])
         TB.SetMotor2(drive[1])
 
+def loop():
+    try:
+        while True: time.sleep(100)
+    except (KeyboardInterrupt, SystemExit):
+        print("Received keyboard interrupt, quitting ...")
 
 # connect the client to Cumulocity IoT and register a device
 client = mqtt.Client(config.client_name)
@@ -112,3 +117,5 @@ client.loop_start()
 print("Device registered successfully!")
 
 client.subscribe("home/living/curtain/left")
+
+loop()
