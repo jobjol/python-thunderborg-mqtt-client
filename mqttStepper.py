@@ -101,7 +101,7 @@ def HoldPosition(motornumber):
         if motornumber == 0:
             TB.SetMotor1(drive[0])
         if motornumber == 1:
-        TB.SetMotor2(drive[1])
+            TB.SetMotor2(drive[1])
 
 
 def loop():
