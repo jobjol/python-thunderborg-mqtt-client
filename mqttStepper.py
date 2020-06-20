@@ -11,7 +11,6 @@ import sys
 import credentials
 
 # Name the global variables
-global step
 global TB
 
 # Setup the ThunderBorg
@@ -51,7 +50,6 @@ def on_message(client, userdata, message):
 
 # Function to perform a sequence of steps as fast as allowed
 def moveStep(count, motornumber):
-    global step
     global TB
     print ('count = ' + count)
     print ('motor = ' + motornumber)
@@ -93,12 +91,11 @@ def moveStep(count, motornumber):
 
 # Function to switch to holding power
 def HoldPosition(motornumber):
-    global step
     global TB
 
     # For the current step set the required holding drive values
-    if step < len(config.sequence):
-        drive = config.sequenceHold[step]
+    if step[motornumber] < len(config.sequence):
+        drive = config.sequenceHold[step[motornumber]]
         TB.SetMotor1(drive[0])
         TB.SetMotor2(drive[1])
 
@@ -114,14 +111,17 @@ client.username_pw_set(user, password=password)
 client.on_connect = on_connect
 client.on_message = on_message
 
+client.subscribe('home/living/curtain/left')
+client.subscribe('home/living/curtain/right')
+
 client.connect(broker_address, port=port)
-client.loop_start()
+client.loop_forever()
+
 
 while Connected != True:
     time.sleep(0.1)
 
-client.subscribe('home/living/curtain/left')
-client.subscribe('home/living/curtain/right')
+
 
 try:
     while True:
