@@ -10,6 +10,7 @@ import credentials
 
 # Name the global variables
 global TB
+connected = False
 
 # Setup the ThunderBorg
 TB = ThunderBorg.ThunderBorg()     # Create a new ThunderBorg object
@@ -29,10 +30,10 @@ if not TB.foundChip:
 step = [-1,-1]
 
 def on_connect(client, userdata, flags, rc):
+    global Connected
     if rc == 0:
         print("Connected to broker")
-        global Connected
-        Connected =True
+        connected =True
     else:
         print("Connection failed")
 
@@ -100,7 +101,7 @@ def HoldPosition(motornumber):
 def on_log(client, obj, level, string):
     print(string)
 
-Connected = False
+connected = False
 
 broker_address = config.broker #Your MQTT broker IP address
 port = config.port #default port change as required
@@ -119,7 +120,7 @@ client.subscribe('home/living/curtain/right')
 client.loop_forever()
 
 
-while Connected != True:
+while connected != True:
     time.sleep(0.1)
 
 
