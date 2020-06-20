@@ -101,8 +101,6 @@ def HoldPosition(motornumber):
 def on_log(client, obj, level, string):
     print(string)
 
-connected = False
-
 broker_address = config.broker #Your MQTT broker IP address
 port = config.port #default port change as required
 user = credentials.username #mqtt user name change as required
