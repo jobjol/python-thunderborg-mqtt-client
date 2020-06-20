@@ -3,6 +3,16 @@ import time
 import os
 import subprocess
 import config
+# Create a credentials.py file with the following structure:
+#
+# login = dict(
+#     username = 'xxx',
+#     password = 'xxx',
+# )
+try:
+    import credentials
+except ImportError:
+    credentials = None
 
 def on_connect(client, userdata, flags, rc):
     if rc == 0:
@@ -26,8 +36,8 @@ Connected = False
 
 broker_address = config.broker #Your MQTT broker IP address
 port = config.port #default port change as required
-user = config.login['username'] #mqtt user name change as required
-password = config.login['password'] #mqtt password change as required
+user = credentials.login['username'] #mqtt user name change as required
+password = credentials.login['password'] #mqtt password change as required
 client = mqttClient.Client(config.client_name)
 client.username_pw_set(user, password=password)
 client.on_connect = on_connect
