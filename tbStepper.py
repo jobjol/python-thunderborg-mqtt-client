@@ -80,6 +80,7 @@ def MoveStep(count):
         time.sleep(stepDelay)
         count -= 1
 
+
 # Function to switch to holding power
 def HoldPosition():
     global step
@@ -90,6 +91,7 @@ def HoldPosition():
         drive = sequenceHold[step]
         TB.SetMotor1(drive[0])
         TB.SetMotor2(drive[1])
+
 
 try:
     # Start by turning all drives off
