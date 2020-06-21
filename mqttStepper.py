@@ -71,9 +71,9 @@ def on_connect(mqttc, obj, flags, rc):
 def on_message(mqttc, obj, msg):
     print(msg.topic + " " + str(msg.qos) + " " + str(msg.payload))
     if msg.topic == "home/living/curtain/left":
-        MoveStep(msg.payload,0)
+        MoveStep(msg.payload)
     if msg.topic == "home/living/curtain/right":
-        MoveStep(msg.payload,1)
+        MoveStep(msg.payload)
 
 
 def on_publish(mqttc, obj, mid):
