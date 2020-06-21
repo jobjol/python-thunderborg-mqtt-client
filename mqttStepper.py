@@ -122,9 +122,9 @@ def MoveStep(count, motor):
         # For this step set the required drive values
         if step[motor] < len(config.sequence):
             drive = config.sequence[step[motor]]
-
+                print ("Set motor post to" + drive[0])
+                print ("Set motor 2 post to" + drive[1])
                 TB.SetMotor1(drive[0])
-
                 TB.SetMotor2(drive[1])
         time.sleep(config.stepDelay)
         count -= 1
