@@ -89,7 +89,7 @@ def on_log(mqttc, obj, level, string):
 
 
 # Function to perform a sequence of steps as fast as allowed
-def MoveStep(count, motor):
+def MoveStep(count):
     global step
     global TB
 
@@ -103,45 +103,39 @@ def MoveStep(count, motor):
     # Loop through the steps
     while count > 0:
         # Set a starting position if this is the first move
-        if step[motor] == -1:
+        if step == -1:
             drive = config.sequence[-1]
-
-                TB.SetMotor1(drive[0])
-
-                TB.SetMotor2(drive[1])
-            step[motor] = 0
+            TB.SetMotor1(drive[0])
+            TB.SetMotor2(drive[1])
+            step = 0
         else:
-            step[motor] += dir
+            step += dir
 
         # Wrap step when we reach the end of the sequence
-        if step[motor] < 0:
-            step[motor] = len(config.sequence) - 1
-        elif step[motor] >= len(config.sequence):
-            step[motor] = 0
+        if step < 0:
+            step = len(config.sequence) - 1
+        elif step >= len(config.sequence):
+            step = 0
 
         # For this step set the required drive values
-        if step[motor] < len(config.sequence):
-            drive = config.sequence[step[motor]]
-                print ("Set motor post to" + drive[0])
-                print ("Set motor 2 post to" + drive[1])
-                TB.SetMotor1(drive[0])
-                TB.SetMotor2(drive[1])
+        if step < len(config.sequence):
+            drive = config.sequence[step]
+            TB.SetMotor1(drive[0])
+            TB.SetMotor2(drive[1])
         time.sleep(config.stepDelay)
         count -= 1
 
 
 # Function to switch to holding power
-def HoldPosition(motor):
+def HoldPosition():
     global step
     global TB
 
     # For the current step set the required holding drive values
-    if step[motor] < len(config.sequence):
-        drive = config.sequenceHold[step[motor]]
-        if motor == 0:
-            TB.SetMotor1(drive[0])
-        if motor == 1:
-            TB.SetMotor2(drive[1])
+    if step < len(config.sequence):
+        drive = config.sequenceHold[step]
+        TB.SetMotor1(drive[0])
+        TB.SetMotor2(drive[1])
 
 
 usetls = args.use_tls
